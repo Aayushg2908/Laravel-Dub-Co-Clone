@@ -10,13 +10,13 @@
                             class="w-10 h-10" />
                         <div class="flex flex-col">
                             <div class="flex items-center gap-x-2">
-                                <a href="/" target="_blank"
-                                    class="font-extrabold text-lg tracking-tighter line-clamp-1 max-w-[200px]">
-                                    url-shortener.test/{{ $link->slug }}
+                                <a href="s/{{ $link->slug }}" target="_blank"
+                                    class="font-extrabold text-lg tracking-tighter line-clamp-1 max-w-[400px]">
+                                    url-shortener.test/s/{{ $link->slug }}
                                 </a>
                                 <x-mini-button outline black rounded id="copy-button-{{ $link->id }}" sm
                                     x-data=""
-                                    x-on:click="copyToClipboard('url-shortener.test/{{ $link->slug }}', 'copy-button-{{ $link->id }}')">
+                                    x-on:click="copyToClipboard('url-shortener.test/s/{{ $link->slug }}', 'copy-button-{{ $link->id }}')">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy">

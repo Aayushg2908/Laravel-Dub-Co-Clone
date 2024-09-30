@@ -29,8 +29,12 @@
     <nav class="w-full h-[60px] flex items-center justify-around relative">
         <h1 class="text-2xl font-bold">dub</h1>
         <div class="flex items-center gap-x-2">
-            <x-button sm flat black rounded="full" href="{{ route('register') }}" wire:navigate label="Register" />
-            <x-button sm black rounded="full" href="{{ route('login') }}" wire:navigate label="Login" />
+            @auth
+                <x-button sm primary rounded="full" href="{{ route('dashboard') }}" wire:navigate label="Dashboard" />
+            @else
+                <x-button sm flat black rounded="full" href="{{ route('register') }}" wire:navigate label="Register" />
+                <x-button sm black rounded="full" href="{{ route('login') }}" wire:navigate label="Login" />
+            @endauth
         </div>
     </nav>
 
@@ -56,8 +60,8 @@
                         class="w-10 h-10" />
                     <div class="flex flex-col">
                         <div class="flex items-center gap-x-2">
-                            <a href="url-shortener.test/try" target="_blank"
-                                class="font-extrabold text-lg tracking-tighter">url-shortener.test/try</a>
+                            <a href="url-shortener.test/s/try" target="_blank"
+                                class="font-extrabold text-lg tracking-tighter">url-shortener.test/s/try</a>
                             <x-mini-button outline black rounded id="copy-button" sm>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -112,7 +116,7 @@
     document.addEventListener("DOMContentLoaded", () => {
         const copyButton = document.getElementById('copy-button');
         copyButton.addEventListener('click', () => {
-            copyToClipboard('url-shortener.test/try');
+            copyToClipboard('url-shortener.test/s/try');
             Swal.fire({
                 icon: 'success',
                 title: 'Copied!',
