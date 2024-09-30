@@ -53,15 +53,25 @@
                         </div>
                     </div>
 
-                    <x-mini-button rounded flat black sm>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-ellipsis-vertical">
-                            <circle cx="12" cy="12" r="1" />
-                            <circle cx="12" cy="5" r="1" />
-                            <circle cx="12" cy="19" r="1" />
-                        </svg>
-                    </x-mini-button>
+                    <x-dropdown>
+                        <x-slot name="trigger">
+                            <x-mini-button rounded flat black sm>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
+                                    class="lucide lucide-ellipsis-vertical">
+                                    <circle cx="12" cy="12" r="1" />
+                                    <circle cx="12" cy="5" r="1" />
+                                    <circle cx="12" cy="19" r="1" />
+                                </svg>
+                            </x-mini-button>
+                        </x-slot>
+
+                        <x-dropdown.item label="Edit" icon="pencil" wire:click="editLink({{ $link->id }})"
+                            x-on:click="$openModal('edit-link-modal')" />
+                        <x-dropdown.item label="Delete" icon="trash" wire:click="deleteLink({{ $link->id }})"
+                            x-on:click="$openModal('delete-link-modal')" />
+                    </x-dropdown>
                 </div>
             </x-card>
         </div>
@@ -87,6 +97,47 @@
             </div>
         </form>
     </x-modal-card>
+
+    <x-modal-card name="edit-link-modal" title="Edit Link">
+        <form wire:submit.prevent="confirmEditLink">
+            <div class="mt-2">
+                <x-input label="Original URL" id="editingOriginalUrl" name="editingOriginalUrl"
+                    placeholder="Enter your original URL" wire:model="editingOriginalUrl" type="url" />
+                <x-input-error :messages="$errors->get('editingOriginalUrl')" class="mt-2" />
+            </div>
+
+            <div class="mt-6">
+                <x-input label="Slug" id="editingSlug" name="editingSlug" placeholder="Enter your slug"
+                    wire:model="editingSlug" type="text" />
+                <x-input-error :messages="$errors->get('editingSlug')" class="mt-2" />
+            </div>
+
+            <div class="mt-6 flex justify-end gap-x-2">
+                <x-button flat black label="Cancel" x-on:click="close" />
+                <x-button label="Edit" type="submit" />
+            </div>
+        </form>
+    </x-modal-card>
+
+    <x-modal name="delete-link-modal">
+        <form wire:submit="confirmDeleteLink">
+            <x-card title="Delete Link">
+
+                <h2 class="text-lg font-medium text-gray-900">
+                    {{ __('Are you sure you want to delete this link?') }}
+                </h2>
+
+                <p class="mt-1 text-sm text-gray-600">
+                    {{ __('This will permanently delete the link and all of its data and cannot be undone.') }}
+                </p>
+
+                <x-slot name="footer" class="flex justify-end gap-x-4">
+                    <x-button outline black label="Cancel" x-on:click="close" wire:click="cancelDeleteLink" />
+                    <x-button negative label="Delete" type="submit" x-on:click="close" />
+                </x-slot>
+            </x-card>
+        </form>
+    </x-modal>
 </div>
 
 <script>
