@@ -10,7 +10,8 @@
                             class="w-10 h-10" />
                         <div class="flex flex-col">
                             <div class="flex items-center gap-x-2">
-                                <a href="/" target="_blank" class="font-extrabold text-lg tracking-tighter">
+                                <a href="/" target="_blank"
+                                    class="font-extrabold text-lg tracking-tighter line-clamp-1 max-w-[200px]">
                                     url-shortener.test/{{ $link->slug }}
                                 </a>
                                 <x-mini-button outline black rounded id="copy-button-{{ $link->id }}" sm
