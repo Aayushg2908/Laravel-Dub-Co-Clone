@@ -60,7 +60,7 @@
                         class="w-10 h-10" />
                     <div class="flex flex-col">
                         <div class="flex items-center gap-x-2">
-                            <a href="url-shortener.test/s/try" target="_blank"
+                            <a href="s/try" target="_blank"
                                 class="font-extrabold text-lg tracking-tighter">url-shortener.test/s/try</a>
                             <x-mini-button outline black rounded id="copy-button" sm>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
