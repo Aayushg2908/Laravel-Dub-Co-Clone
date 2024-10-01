@@ -3,6 +3,7 @@
 namespace App\Livewire\Link;
 
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Links extends Component
@@ -20,6 +21,23 @@ class Links extends Component
         $this->links = Auth::user()->shortlinks()->orderBy('created_at', 'desc')->get();
     }
 
+    #[On('refresh-links')]
+    public function refresh()
+    {
+        $this->links = Auth::user()->shortlinks()->orderBy('created_at', 'desc')->get();
+    }
+
+    #[On('echo:click-count-increment,ClickCount')]
+    public function incrementClickCount($event)
+    {
+        $this->links->map(function ($link) use ($event) {
+            if ($link->id == $event['linkId']) {
+                $link->click_count = $event['clickCount'];
+            }
+        });
+    }
+
+
     public function createLink()
     {
         $this->validate([
@@ -33,7 +51,7 @@ class Links extends Component
         ]);
         
         $this->reset(['original_url', 'slug']);
-        $this->links = Auth::user()->shortlinks()->orderBy('created_at', 'desc')->get();
+        $this->dispatch('refresh-links');
     }
 
     public function deleteLink($id)
@@ -44,7 +62,7 @@ class Links extends Component
     public function confirmDeleteLink()
     {
         Auth::user()->shortlinks()->find($this->deletingLinkId)->delete();
-        $this->links = Auth::user()->shortlinks()->orderBy('created_at', 'desc')->get();
+        $this->dispatch('refresh-links');
         $this->deletingLinkId = null;
     }
 
@@ -74,7 +92,7 @@ class Links extends Component
             'slug' => $this->editingSlug,
         ]);
         $this->reset(['editingLinkId', 'editingOriginalUrl', 'editingSlug']);
-        $this->links = Auth::user()->shortlinks()->orderBy('created_at', 'desc')->get();
+        $this->dispatch('refresh-links');
     }
 
     public function cancelEditLink()
